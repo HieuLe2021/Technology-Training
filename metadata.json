@@ -1,0 +1,5 @@
+{
+  "name": "Technology Training",
+  "description": "An AI-powered application to provide training materials and exercises for the Microsoft Power Platform, including Power Apps, Power Automate, Power BI, and Power Virtual Agents.",
+  "requestFramePermissions": []
+}
