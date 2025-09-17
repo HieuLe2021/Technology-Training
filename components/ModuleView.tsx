@@ -53,11 +53,27 @@ export const ModuleView: React.FC<ModuleViewProps> = ({ module }) => {
   );
 };
 
+// Simple markdown formatter to handle headings, lists, bold text and code blocks
+const formatMarkdown = (text: string) => {
+  return text
+    .replace(/^### (.*$)/gim, '<h3 class="text-lg font-semibold mt-4 mb-2">$1</h3>')
+    .replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold mt-6 mb-3 border-b pb-2 dark:border-gray-600">$1</h2>')
+    .replace(/^# (.*$)/gim, '<h1 class="text-2xl font-bold mt-8 mb-4 border-b-2 pb-2 dark:border-gray-500">$1</h1>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/`([^`]+)`/g, '<code class="bg-gray-200 dark:bg-gray-700 rounded-md px-1.5 py-0.5 font-mono text-sm">$1</code>')
+    .replace(/^\* (.*$)/gim, '<li class="ml-6 my-1">$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, '<ul class="list-disc pl-5 mb-4">$1</ul>')
+    .replace(/\n/g, '<br />');
+};
+
 const TopicContent: React.FC<{ topic: SubTopic }> = ({ topic }) => {
   const [activeTab, setActiveTab] = useState<'material' | 'quiz'>('material');
 
   const material = TRAINING_MATERIALS[topic.id] || '<p>Nội dung cho chủ đề này hiện không có sẵn.</p>';
   const quiz = TRAINING_QUIZZES[topic.id];
+  const isPreformatted = topic.id.startsWith('pe-');
+
 
   const handleTabClick = (tab: 'material' | 'quiz') => {
     setActiveTab(tab);
@@ -92,7 +108,7 @@ const TopicContent: React.FC<{ topic: SubTopic }> = ({ topic }) => {
 
       <div>
         {activeTab === 'material' && (
-          <div className="prose prose-blue dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(material) }} />
+          <div className="prose prose-sm prose-blue dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: isPreformatted ? material : formatMarkdown(material) }} />
         )}
         {activeTab === 'quiz' && (
           <div>
@@ -110,18 +126,4 @@ const TopicContent: React.FC<{ topic: SubTopic }> = ({ topic }) => {
       </div>
     </div>
   );
-};
-
-// Simple markdown formatter to handle headings, lists, bold text and code blocks
-const formatMarkdown = (text: string) => {
-  return text
-    .replace(/^### (.*$)/gim, '<h3 class="text-lg font-semibold mt-4 mb-2">$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold mt-6 mb-3 border-b pb-2 dark:border-gray-600">$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1 class="text-2xl font-bold mt-8 mb-4 border-b-2 pb-2 dark:border-gray-500">$1</h1>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/`([^`]+)`/g, '<code class="bg-gray-200 dark:bg-gray-700 rounded-md px-1.5 py-0.5 font-mono text-sm">$1</code>')
-    .replace(/^\* (.*$)/gim, '<li class="ml-6 my-1">$1</li>')
-    .replace(/(<li>.*<\/li>)/gs, '<ul class="list-disc pl-5 mb-4">$1</ul>')
-    .replace(/\n/g, '<br />');
 };

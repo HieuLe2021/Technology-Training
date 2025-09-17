@@ -1,13 +1,14 @@
-
 import React from 'react';
 
 export const PowerAppsIcon: React.FC<{className?: string}> = ({ className }) => (
   <svg
     className={className}
-    viewBox="0 0 24 24"
-    fill="currentColor"
+    viewBox="0 0 18 18"
     xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
   >
-    <path d="M12.333 2.667H4v11h8.333V2.667zM20 2.667h-5.667v4.333H20V2.667zM20 9h-5.667v11H20V9zM12.333 15.667H4v4.333h8.333v-4.333z" />
+    <path d="M11.25 0H0V11.25H11.25V0Z" fill="#0078D4" />
+    <path d="M18 6.75H6.75V18H18V6.75Z" fill="#84D4FF" />
+    <path d="M11.25 6.75H6.75V11.25H11.25V6.75Z" fill="#004C87" />
   </svg>
 );
